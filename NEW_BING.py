@@ -3,6 +3,8 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 # 读取Excel文件中的数据
+
+
 def read_data_from_excel(file_path):
     data = {}
     xls = pd.read_excel(file_path, sheet_name=None)
@@ -11,6 +13,8 @@ def read_data_from_excel(file_path):
     return data
 
 # 定义数据集
+
+
 class MyDataset(Dataset):
     def __init__(self, data, transform=None):
         self.data = data
@@ -30,6 +34,8 @@ class MyDataset(Dataset):
         return sample
 
 # 定义模型
+
+
 class MyModel(torch.nn.Module):
     def __init__(self):
         super(MyModel, self).__init__()
@@ -40,6 +46,8 @@ class MyModel(torch.nn.Module):
         return y_pred
 
 # 训练模型
+
+
 def train_model(model, train_data, criterion, optimizer, num_epochs=1000):
     for epoch in range(num_epochs):
         for i, data in enumerate(train_data):
@@ -58,6 +66,8 @@ def train_model(model, train_data, criterion, optimizer, num_epochs=1000):
             optimizer.step()
 
 # 验证模型
+
+
 def validate_model(model, validation_data):
     correct = 0
     total = 0
@@ -74,12 +84,15 @@ def validate_model(model, validation_data):
         100 * correct / total))
 
 # 预测新数据
+
+
 def predict(model, new_data):
     with torch.no_grad():
         inputs = new_data[:, 0:2]
         outputs = model(inputs)
         _, predicted = torch.max(outputs.data, 1)
     return predicted
+
 
 # 主程序
 if __name__ == '__main__':
@@ -121,3 +134,4 @@ if __name__ == '__main__':
     # 预测新数据
     new_sheet_name = 'new_sheet'
     new_sheet_data_df = pd.read_excel(file_path, sheet_name=new_sheet_name)
+# 我们用pytorch来训练一个模型，我们来叙述情况，你来写代码。训练数据储存在excel中，每一个sheet是一个数据。每个sheet中第一列为xxxx-xx-xx xx:xx:xx格式的时间，第二列为数值，每个sheet中的第一列和第二列都是一一对应关系，但不同的sheet中第一列和第二列行数不同。第三列只有一个数值，为要预测的数据。把数据分为训练数据和验证数据，训练模型并验证模型准确性。然后读取新的sheet，通过新sheet的前两列数据用模型预测第三列的数值。把代码用写在一个代码块中并添加中文注释。
