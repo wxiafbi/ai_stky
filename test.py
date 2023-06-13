@@ -1,18 +1,49 @@
-a1 = [{'a': 'acc1'}, {'b': 'acc1'}, {
-    'c': 'acc1'}, {'d': 'acc1'}, {'e': 'acc1'}]
-a2 = [{'a': 'acc2'}, {'b': 'acc2'}, {
-    'c': 'aBC2'}, {'d': 'acc2'}, {'e': 'acc2'}]
-a3 = [{'a': 'acc3'}, {'b': 'acc3'}, {
-    'c': 'acc3'}, {'d': 'acc3'}, {'e': 'acc3'}]
-a4 = [{'a': 'acc4'}, {'b': 'acc4'}, {
-    'c': 'acc4'}, {'d': 'acc4'}, {'e': 'acc5'}]
-key_1=['a','b','c','d','e']
-tatal = []
-tatal.append(a1)
-tatal.append(a2)
-tatal.append(a3)
-tatal.append(a4)
-print(tatal)
-print(tatal[0][0][key_1[0]])
-print(tatal[0])
-print(len(tatal[0]))
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import Dataset, DataLoader
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# 从Excel文件中读取数据
+
+
+def read_data_from_excel(file_name):
+    data = pd.read_excel(file_name, sheet_name=None)
+    return data
+
+# 自定义数据集
+
+
+class CustomDataset(Dataset):
+    def __init__(self, data, target):
+        self.data = data
+        self.target = target
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx], self.target[idx]
+
+
+# 读取数据
+file_name = '历史数据.xlsx'
+sheets_data = read_data_from_excel(file_name)
+# print(sheets_data.items())
+
+# 处理数据
+all_data = []
+all_targets = []
+for sheet_name, sheet_data in sheets_data.items():
+    # print(sheet_name)
+    print(sheet_data)
+    sheet_data = sheet_data.dropna()
+    data = sheet_data.iloc[:, 1].values
+    print(data)
+    print(type(data))
+
+    target = sheet_data.iloc[0, 2]
+    all_data.append(data)
+    all_targets.append(target)

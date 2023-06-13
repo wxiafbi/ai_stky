@@ -97,7 +97,7 @@ def predict(model, new_data):
 # 主程序
 if __name__ == '__main__':
     # 读取数据
-    file_path = 'data.xlsx'
+    file_path = '历史数据.xlsx'
     data_dict = read_data_from_excel(file_path)
 
     # 划分训练数据和验证数据

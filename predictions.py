@@ -51,12 +51,12 @@ def predict(model, data_frame):
         outputs = model(inputs)
     return outputs.numpy()
 
-file_path = 'your_excel_file.xlsx'
+file_path = '历史数据.xlsx'
 data_frames = read_data_from_excel(file_path)
 
 model = SimpleModel()
 train_model(model, data_frames)
 
-new_sheet_data = read_data_from_excel('new_sheet.xlsx')[0][0]
+new_sheet_data = read_data_from_excel('验证数据.xlsx')[0][0]
 predictions = predict(model, new_sheet_data)
 print(predictions)

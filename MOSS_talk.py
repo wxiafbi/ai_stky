@@ -38,23 +38,28 @@ class MLP(nn.Module):
         return out
 
 # 读取数据
-file_name = 'your_excel_file.xlsx'
+file_name = '历史数据.xlsx'
 sheets_data = read_data_from_excel(file_name)
 
 # 处理数据
 all_data = []
 all_targets = []
 for sheet_name, sheet_data in sheets_data.items():
+    print(sheet_name)
+    print(sheet_data)
     sheet_data = sheet_data.dropna()
+    if sheet_data.empty:  # 检查sheet是否为空
+        continue
     data = sheet_data.iloc[:, 1].values
-    target = sheet_data.iloc[0, 2]
+    print(data)
+    target = sheet_data.iloc[0, -1]
     all_data.append(data)
     all_targets.append(target)
 
 # 数据标准化
 scaler = StandardScaler()
+all_data = [data.reshape(1, -1) for data in all_data]  # 将每个一维数组重塑为二维数组
 all_data = scaler.fit_transform(all_data)
-
 # 划分训练集和验证集
 train_data, val_data, train_targets, val_targets = train_test_split(all_data, all_targets, test_size=0.2, random_state=42)
 
